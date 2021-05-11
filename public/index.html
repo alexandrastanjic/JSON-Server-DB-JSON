@@ -55,6 +55,31 @@
     let message = document.getElementById('message');
     let output = document.getElementById('output');
     let currentId = 1;
+
+    function makeGet(url) {
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          message.innerHTML = xhr.response;
+          console.log(JSON.parse(xhr.response))
+        }
+      }
+      xhr.open('GET', url, true)
+      xhr.send()
+    }
+
+    function makePost(url, data) {
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          message.innerHTML = xhr.response;
+          console.log(JSON.parse(xhr.response))
+        }
+      }
+      xhr.open('POST', url, true)
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+      xhr.send(data)
+    }
   
   </script>
 
