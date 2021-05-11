@@ -1,0 +1,44 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "first": "Laurcene",
+      "last": "Svekis",
+      "company": "Discoveryvip"
+    },
+    {
+      "id": 2,
+      "first": "Natalie",
+      "last": "Skyline",
+      "company": "Discoveryvip"
+    },
+    {
+      "first": "Shein",
+      "last": "Cobb",
+      "company": "Taylor Wessing",
+      "id": 3
+    },
+    {
+      "first": "Dan",
+      "last": "Harris",
+      "company": "Taylor Wessing",
+      "id": 4
+    },
+    {
+      "first": "Dominic",
+      "last": "George",
+      "company": "Taylor Wessing",
+      "id": 5
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
