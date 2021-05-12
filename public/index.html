@@ -56,6 +56,66 @@
     let output = document.getElementById('output');
     let currentId = 1;
 
+    document.querySelector('#next').addEventListener('click', function () {
+      currentId++;
+      loadPage();
+    })
+    document.querySelector('#prev').addEventListener('click', function () {
+      currentId--;
+      loadPage();
+    })
+    document.querySelector('#myForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      let first = document.querySelector('input[name="first"]').value;
+      let last = document.querySelector('input[name="last"]').value;
+      let company = document.querySelector('input[name="company"]').value;
+      let data = 'first=' + first + '&last=' + last + '&company=' + company;
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          message.innerHTML = xhr.response;
+          console.log(JSON.parse(xhr.response))
+        }
+      }
+      xhr.open('POST', 'http://localhost:3000/posts', true)
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+      xhr.send(data)
+    })
+
+
+    function loadPage() {
+      output.innerHTML = ''
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          let myObj = JSON.parse(xhr.response);
+          for (let key in myObj[0]) {
+            output.innerHTML += '<b>' + key + '</b> : ' + myObj[0][key] + '<br>';
+          }
+          loadComments();
+        }
+      }
+      xhr.open('GET', 'http://localhost:3000/posts?id=' + currentId, true)
+      xhr.send()
+    }
+
+    
+    function loadComments() {
+      output.innerHTML += '<p>Comments</p>'
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          let myObj = JSON.parse(xhr.response);
+          for (let x = 0; x < myObj.length; x++) {
+            output.innerHTML += '<b>' + myObj[x].id + '</b> : ' + myObj[x].body + '<br>';
+          }
+        }
+      }
+      xhr.open('GET', 'http://localhost:3000/comments?postId=' + currentId, true)
+      xhr.send()
+    }
+
+
     function makeGet(url) {
       let xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
