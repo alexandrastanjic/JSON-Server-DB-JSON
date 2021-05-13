@@ -25,6 +25,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>JSON server AJAX testing</h1>
@@ -82,6 +83,36 @@
       xhr.send(data)
     })
 
+    document.querySelector('#search').addEventListener('click', function () {
+      output.innerHTML = ''
+      let search = document.querySelector('input[name="search"]').value;
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          let myObj = JSON.parse(xhr.response);
+          console.log(myObj)
+          for (let x = 0; x < myObj.length; x++) {
+            output.innerHTML += '<b>' + myObj[x].first + ' ' + myObj[x].last + '</b> : ' + myObj[x].id + '<br>';
+          }
+        }
+      }
+      xhr.open('GET', 'http://localhost:3000/posts?q=' + search, true)
+      xhr.send()
+    })
+    document.querySelector('#addComment').addEventListener('click', function () {
+      let comments = document.getElementById('comments').value
+      let data = 'postId=' + currentId + '&body=' + comments;
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          var myObj = JSON.parse(xhr.response)
+          output.innerHTML += '<b>' + myObj.id + '</b> : ' + myObj.body + '<br>';
+        }
+      }
+      xhr.open('POST', 'http://localhost:3000/comments', true)
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+      xhr.send(data)
+    })
 
     function loadPage() {
       output.innerHTML = ''
@@ -99,7 +130,7 @@
       xhr.send()
     }
 
-    
+
     function loadComments() {
       output.innerHTML += '<p>Comments</p>'
       let xhr = new XMLHttpRequest();
@@ -140,7 +171,7 @@
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
       xhr.send(data)
     }
-  
+
   </script>
 
 </body>
